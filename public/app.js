@@ -102,6 +102,28 @@ function formatBytes(bytes) {
   return `${kb.toFixed(1)} KB`;
 }
 
+function base64ToBlob(base64, mime = 'application/zip') {
+  const binary = atob(base64);
+  const length = binary.length;
+  const bytes = new Uint8Array(length);
+  for (let i = 0; i < length; i += 1) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return new Blob([bytes], { type: mime });
+}
+
+function triggerDownloadFromBase64(base64, filename) {
+  const blob = base64ToBlob(base64);
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename || 'customwp-snapshot.zip';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 function setBuildStatus(message, type = 'info') {
   els.buildStatus.textContent = message;
   els.buildStatus.dataset.type = type;
@@ -253,6 +275,9 @@ async function pullLiveSnapshotZip() {
   if (state.snapshotZip?.filename) {
     els.buildSourceMode.value = 'snapshot';
     els.liveSnapshotZipLabel.textContent = `Downloaded snapshot: ${state.snapshotZip.filename}`;
+    if (state.snapshotZip?.dataBase64) {
+      triggerDownloadFromBase64(state.snapshotZip.dataBase64, state.snapshotZip.filename);
+    }
   } else {
     els.liveSnapshotZipLabel.textContent = 'Snapshot download failed.';
   }
