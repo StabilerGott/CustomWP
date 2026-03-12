@@ -347,10 +347,19 @@ function generateLiveBrandingPluginPhp() {
  * Plugin Name: CustomWP Live Branding Helper
  * Description: Provides branding controls and snapshot export for CustomWP.
  * Version: 1.1.0
+ * Text Domain: customwp-live-branding
  */
 
 if (!defined('ABSPATH')) {
   exit;
+}
+
+function customwp_live_branding_i18n($en, $de) {
+  $locale = function_exists('get_locale') ? get_locale() : 'en_US';
+  if (strpos($locale, 'de') === 0) {
+    return $de;
+  }
+  return $en;
 }
 
 function customwp_live_branding_defaults() {
@@ -439,58 +448,58 @@ function customwp_live_branding_render_settings_page() {
   $snapshot_url = add_query_arg('_wpnonce', wp_create_nonce('wp_rest'), rest_url('customwp/v1/snapshot'));
   ?>
   <div class="wrap">
-    <h1>CustomWP Branding</h1>
+    <h1><?php echo esc_html(customwp_live_branding_i18n('CustomWP Branding', 'CustomWP Branding')); ?></h1>
     <form method="post" action="options.php">
       <?php settings_fields('customwp_live_branding'); ?>
       <table class="form-table" role="presentation">
         <tr>
-          <th scope="row"><label for="customwp_backendBrandName">Admin bar brand name</label></th>
+          <th scope="row"><label for="customwp_backendBrandName"><?php echo esc_html(customwp_live_branding_i18n('Admin bar brand name', 'Adminleisten-Markenname')); ?></label></th>
           <td><input name="customwp_live_branding[backendBrandName]" id="customwp_backendBrandName" type="text" class="regular-text" value="<?php echo esc_attr($options['backendBrandName']); ?>" /></td>
         </tr>
         <tr>
-          <th scope="row"><label for="customwp_backendFooterText">Admin footer text</label></th>
+          <th scope="row"><label for="customwp_backendFooterText"><?php echo esc_html(customwp_live_branding_i18n('Admin footer text', 'Admin-Footertext')); ?></label></th>
           <td><input name="customwp_live_branding[backendFooterText]" id="customwp_backendFooterText" type="text" class="regular-text" value="<?php echo esc_attr($options['backendFooterText']); ?>" /></td>
         </tr>
         <tr>
-          <th scope="row"><label for="customwp_backendLoginLogoDataUrl">Login logo</label></th>
+          <th scope="row"><label for="customwp_backendLoginLogoDataUrl"><?php echo esc_html(customwp_live_branding_i18n('Login logo', 'Login-Logo')); ?></label></th>
           <td>
             <input name="customwp_live_branding[backendLoginLogoDataUrl]" id="customwp_backendLoginLogoDataUrl" type="text" class="regular-text customwp-media-target" value="<?php echo esc_attr($options['backendLoginLogoDataUrl']); ?>" />
-            <button class="button customwp-media-select" data-target="customwp_backendLoginLogoDataUrl" type="button">Choose</button>
-            <p class="description">Pick an image from the media library or paste a URL.</p>
+            <button class="button customwp-media-select" data-target="customwp_backendLoginLogoDataUrl" type="button"><?php echo esc_html(customwp_live_branding_i18n('Choose', 'Auswählen')); ?></button>
+            <p class="description"><?php echo esc_html(customwp_live_branding_i18n('Pick an image from the media library or paste a URL.', 'Wähle ein Bild aus der Mediathek oder füge eine URL ein.')); ?></p>
           </td>
         </tr>
         <tr>
-          <th scope="row"><label for="customwp_frontendSiteTitle">Frontend site title override</label></th>
+          <th scope="row"><label for="customwp_frontendSiteTitle"><?php echo esc_html(customwp_live_branding_i18n('Frontend site title override', 'Frontend-Titel überschreiben')); ?></label></th>
           <td><input name="customwp_live_branding[frontendSiteTitle]" id="customwp_frontendSiteTitle" type="text" class="regular-text" value="<?php echo esc_attr($options['frontendSiteTitle']); ?>" /></td>
         </tr>
         <tr>
-          <th scope="row"><label for="customwp_frontendTagline">Frontend tagline</label></th>
+          <th scope="row"><label for="customwp_frontendTagline"><?php echo esc_html(customwp_live_branding_i18n('Frontend tagline', 'Frontend-Slogan')); ?></label></th>
           <td><input name="customwp_live_branding[frontendTagline]" id="customwp_frontendTagline" type="text" class="regular-text" value="<?php echo esc_attr($options['frontendTagline']); ?>" /></td>
         </tr>
         <tr>
-          <th scope="row"><label for="customwp_frontendLogoUrl">Frontend logo</label></th>
+          <th scope="row"><label for="customwp_frontendLogoUrl"><?php echo esc_html(customwp_live_branding_i18n('Frontend logo', 'Frontend-Logo')); ?></label></th>
           <td>
             <input name="customwp_live_branding[frontendLogoUrl]" id="customwp_frontendLogoUrl" type="text" class="regular-text customwp-media-target" value="<?php echo esc_attr($options['frontendLogoUrl']); ?>" />
-            <button class="button customwp-media-select" data-target="customwp_frontendLogoUrl" type="button">Choose</button>
-            <p class="description">Used in the frontend header bar injected by the plugin.</p>
+            <button class="button customwp-media-select" data-target="customwp_frontendLogoUrl" type="button"><?php echo esc_html(customwp_live_branding_i18n('Choose', 'Auswählen')); ?></button>
+            <p class="description"><?php echo esc_html(customwp_live_branding_i18n('Used in the frontend header bar injected by the plugin.', 'Wird in der vom Plugin eingefügten Frontend-Kopfzeile verwendet.')); ?></p>
           </td>
         </tr>
         <tr>
-          <th scope="row"><label for="customwp_accentColor">Accent color</label></th>
+          <th scope="row"><label for="customwp_accentColor"><?php echo esc_html(customwp_live_branding_i18n('Accent color', 'Akzentfarbe')); ?></label></th>
           <td><input name="customwp_live_branding[accentColor]" id="customwp_accentColor" type="text" class="regular-text" value="<?php echo esc_attr($options['accentColor']); ?>" /></td>
         </tr>
         <tr>
-          <th scope="row"><label for="customwp_customCss">Custom CSS</label></th>
+          <th scope="row"><label for="customwp_customCss"><?php echo esc_html(customwp_live_branding_i18n('Custom CSS', 'Eigenes CSS')); ?></label></th>
           <td><textarea name="customwp_live_branding[customCss]" id="customwp_customCss" class="large-text" rows="6"><?php echo esc_textarea($options['customCss']); ?></textarea></td>
         </tr>
       </table>
-      <?php submit_button('Save Branding'); ?>
+      <?php submit_button(customwp_live_branding_i18n('Save Branding', 'Branding speichern')); ?>
     </form>
 
     <hr />
-    <h2>Snapshot Export</h2>
-    <p>Download a ZIP of the current WordPress filesystem for CustomWP Builder.</p>
-    <a class="button button-primary" href="<?php echo esc_url($snapshot_url); ?>">Download Snapshot ZIP</a>
+    <h2><?php echo esc_html(customwp_live_branding_i18n('Snapshot Export', 'Snapshot-Export')); ?></h2>
+    <p><?php echo esc_html(customwp_live_branding_i18n('Download a ZIP of the current WordPress filesystem for CustomWP Builder.', 'Lade eine ZIP-Datei des aktuellen WordPress-Dateisystems für CustomWP Builder herunter.')); ?></p>
+    <a class="button button-primary" href="<?php echo esc_url($snapshot_url); ?>"><?php echo esc_html(customwp_live_branding_i18n('Download Snapshot ZIP', 'Snapshot-ZIP herunterladen')); ?></a>
   </div>
   <?php
 }
@@ -508,24 +517,28 @@ add_action('admin_enqueue_scripts', function ($hook) {
     return;
   }
   wp_enqueue_media();
-  wp_enqueue_script('jquery');
-  $script = "(function(){\n"
-    . "function bindMedia(button){\n"
-    . "  button.addEventListener('click', function(){\n"
-    . "    var targetId = button.getAttribute('data-target');\n"
-    . "    var target = document.getElementById(targetId);\n"
-    . "    if (!target) return;\n"
-    . "    var frame = wp.media({ title: 'Select image', button: { text: 'Use image' }, multiple: false });\n"
-    . "    frame.on('select', function(){\n"
-    . "      var attachment = frame.state().get('selection').first().toJSON();\n"
-    . "      target.value = attachment.url || '';\n"
+  wp_register_script('customwp-live-branding-admin', false, array('jquery', 'media-editor', 'media-upload'), '1.1.0', true);
+  wp_enqueue_script('customwp-live-branding-admin');
+  $title = esc_js(customwp_live_branding_i18n('Select image', 'Bild auswählen'));
+  $button = esc_js(customwp_live_branding_i18n('Use image', 'Bild verwenden'));
+  $script = "jQuery(function($){\n"
+    . "  function bindMedia(button){\n"
+    . "    $(button).on('click', function(){\n"
+    . "      if (!window.wp || !wp.media) return;\n"
+    . "      var targetId = button.getAttribute('data-target');\n"
+    . "      var target = document.getElementById(targetId);\n"
+    . "      if (!target) return;\n"
+    . "      var frame = wp.media({ title: '{$title}', button: { text: '{$button}' }, multiple: false });\n"
+    . "      frame.on('select', function(){\n"
+    . "        var attachment = frame.state().get('selection').first().toJSON();\n"
+    . "        target.value = attachment.url || '';\n"
+    . "      });\n"
+    . "      frame.open();\n"
     . "    });\n"
-    . "    frame.open();\n"
-    . "  });\n"
-    . "}\n"
-    . "document.querySelectorAll('.customwp-media-select').forEach(bindMedia);\n"
-    . "})();";
-  wp_add_inline_script('jquery', $script);
+    . "  }\n"
+    . "  $('.customwp-media-select').each(function(){ bindMedia(this); });\n"
+    . "});";
+  wp_add_inline_script('customwp-live-branding-admin', $script);
 });
 
 add_action('login_enqueue_scripts', function () {
@@ -701,7 +714,16 @@ async function buildLiveBrandingPluginZip() {
 
   await fsp.mkdir(pluginRoot, { recursive: true });
   await fsp.writeFile(pluginPath, generateLiveBrandingPluginPhp(), 'utf-8');
-  await runCommand('zip', ['-qr', zipPath, 'customwp-live-branding'], { cwd: workRoot });
+  try {
+    await runCommand('zip', ['-qr', zipPath, 'customwp-live-branding'], { cwd: workRoot });
+  } catch (error) {
+    if (process.platform === 'win32') {
+      const psCommand = `Compress-Archive -Path '${pluginRoot}' -DestinationPath '${zipPath}' -Force`;
+      await runCommand('powershell', ['-NoProfile', '-Command', psCommand], { cwd: workRoot });
+    } else {
+      throw error;
+    }
+  }
 
   return { zipPath, workRoot };
 }
